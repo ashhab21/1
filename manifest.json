@@ -1,19 +1,19 @@
 {
-  "name": "مكتبة شبكة أشهب21",
+  "name": "مكتبة أشهب21",
   "short_name": "أشهب21",
-  "description": "مكتبة المسلسلات الأسبوعية",
-  "start_url": "index.html",
+  "start_url": "/1/index.html",
+  "scope": "/1/",
   "display": "standalone",
   "background_color": "#050816",
   "theme_color": "#050816",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/1/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "/1/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
