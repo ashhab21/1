@@ -1,6 +1,6 @@
 {
-  "name": "مكتبة أشهب21",
-  "short_name": "أشهب21",
+  "name": "مكتبة شبكة أشهب21",
+  "short_name": "مكتبة شبكة أشهب21",
   "start_url": "/1/index.html",
   "scope": "/1/",
   "display": "standalone",
@@ -19,3 +19,4 @@
     }
   ]
 }
+
