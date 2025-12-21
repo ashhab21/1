@@ -3290,14 +3290,14 @@
   </script>
   <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+  navigator.serviceWorker.register('/1/service-worker.js');
 }
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   const promptEvent = e;
   setTimeout(() => {
-    if (confirm("هل تريد تثبيت مكتبة أشهب21 على جهازك؟")) {
+    if (confirm(" هل تريد تثبيت مكتبة أشهب21 على جهازك؟ 🔥🎥")) {
       promptEvent.prompt();
     }
   }, 2000);
