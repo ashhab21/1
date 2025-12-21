@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <title>مكتبة شبكة أشهب21 الأسبوعية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#050816">
+
   <style>
     /* إعدادات عامة */
     * {
@@ -772,8 +775,12 @@
           data-video="https://vid3.zvde-dsn-05.site/Tasacak-Bu-Deniz/09.mp4"></div>
 		 
         <div class="ep-data"
-          data-label="الحلقة 10 🆕"
+          data-label="الحلقة 10"
           data-video="https://vid3.zvde-dsn-05.site/Tasacak-Bu-Deniz/10.mp4"></div>
+
+        <div class="ep-data"
+          data-label="الحلقة 11 🆕"
+          data-video="https://vid3.zvde-dsn-05.site/Tasacak-Bu-Deniz/11.mp4"></div>
 
         <!-- <div class="ep-data"
          data-label="الحلقة 11"
@@ -1156,7 +1163,26 @@
          data-label="الحلقة 75"
          data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/75.mp4"></div>
 		 
-
+		 <div class="ep-data"
+         data-label="الحلقة 76 🆕"
+         data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/76.mp4"></div>
+		 
+		 <div class="ep-data"
+         data-label="الحلقة 77 🆕"
+         data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/77.mp4"></div>
+		 
+		 <div class="ep-data"
+         data-label="الحلقة 78 🆕"
+         data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/78.mp4"></div>
+		 
+		 <div class="ep-data"
+         data-label="الحلقة 79 🆕"
+         data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/79.mp4"></div>
+		 
+		 <div class="ep-data"
+         data-label="الحلقة 80 🆕"
+         data-video="https://vid3.zvde-dsn-05.site/Aynak-Kal-Bahr-Al-Aswad-1/80.mp4"></div>
+		 
         <!-- <div class="ep-data"
          data-label="الحلقة 11"
          data-video=""></div> -->
@@ -3262,5 +3288,21 @@
       }
     });
   </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  const promptEvent = e;
+  setTimeout(() => {
+    if (confirm("هل تريد تثبيت مكتبة أشهب21 على جهازك؟")) {
+      promptEvent.prompt();
+    }
+  }, 2000);
+});
+</script>
+
 </body>
 </html>
