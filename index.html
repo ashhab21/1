@@ -379,10 +379,28 @@
     }
 
     .episodes-list {
-      display: flex;
-      gap: 0.35rem;
-      flex-wrap: wrap;
-    }
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+
+.episodes-list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.episodes-list::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+.episodes-list::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 10px;
+}
 
     .ep-pill {
       border-radius: 999px;
@@ -421,6 +439,35 @@
         height: 50vh;
       }
     }
+	
+	/* ===== زر تشغيل كبير وسط الفيديو ===== */
+.video-wrap {
+  position: relative;
+}
+
+.big-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  color: #fff;
+  background: rgba(0,0,0,0.35);
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity .25s ease;
+}
+
+.big-play-btn:hover {
+  background: rgba(0,0,0,0.45);
+}
+
+.big-play-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
   </style>
 </head>
 <body>
@@ -433,7 +480,8 @@
 		لا تعتمد المكتبة على حلقات سابقة "فقط الحلقات الأسبوعية" 🔥<br>
 		لأضافة مسلسل أسبوعي او فلم يرجئ التواصل على <a><a href="https://wa.me/967771860891">واتس أب</a> ✉
       </p>
-	  <button id="installBtn" style="display:none; position:fixed; bottom:20px; right:20px; padding:12px 18px; font-size:15px; border-radius:10px; border:0; background:#38bdf8; color:#000; font-weight:700; z-index:9999; cursor:pointer;">📲 تثبيت المكتبة عند التطبيقات 😉</button>
+	  <button id="installBtn" style="display:none; position:fixed; bottom:20px; right:20px; padding:12px 18px; font-size:15px; border-radius:10px; border:0; background:#38bdf8; color:#000; font-weight:700; z-index:9999; cursor:pointer;">📲 تثبيت المكتبة</button>
+
     </header>
 
     <!-- شريط أدوات (نموذج تقدر تعدل عليه أو تحذفه) -->
@@ -943,6 +991,126 @@
        <!-- الحلقات (مخفية لا تغيّر شكل الكرت) -->
         <div class="episodes-data" style="display:none">
 		  
+		<div class="ep-data"
+         data-label="الحلقة 1"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/01.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 2"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/02.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 3"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/03.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 4"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/04.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 5"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/05.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 6"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/06.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 7"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/07.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 8"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/08.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 9"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/09.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 10"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/10.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 11"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/11.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 12"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/12.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 13"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/13.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 14"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/14.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 15"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/15.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 16"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/16.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 17"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/17.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 18"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/18.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 19"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/19.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 20"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/20.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 21"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/21.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 22"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/22.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 23"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/23.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 24"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/24.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 25"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/25.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 26"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/26.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 27"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/27.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 28"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/28.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 29"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/29.mp4"></div>
+		 
+		<div class="ep-data"
+         data-label="الحلقة 30"
+         data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/30.mp4"></div>
+		 
 		<div class="ep-data"
          data-label="الحلقة 31"
          data-video="https://vid3.zvde-dsn-05.site/Helm-Ashraf-2-AR/31.mp4"></div>
@@ -3187,7 +3355,11 @@
           <span class="episodes-label">الحلقات:</span>
           <div class="episodes-list" id="episodesList"></div>
         </div>
-        <video id="playerVideo" controls></video>
+        <div class="video-wrap">
+  <div class="big-play-btn" id="bigPlayBtn">▶️</div>
+  <video id="playerVideo" controls></video>
+</div>
+
       </div>
     </div>
   </div>
@@ -3212,7 +3384,7 @@
       if (!url) return;
       playerVideo.src = url;
       playerTitle.textContent = title;
-      playerVideo.play().catch(() => {});
+      playerVideo.pause();
     }
 
     cards.forEach((card) => {
@@ -3244,11 +3416,31 @@
             });
             episodesList.appendChild(pill);
 
-            if (index === 0) {
-              pill.classList.add("active");
-              playSource(url, baseTitle + " — " + label);
-            }
+            // if (index === 0) { pill.classList.add("active"); playSource(url, baseTitle + " — " + label);}
           });
+		  // ===== شغّل آخر حلقة تلقائيًا =====
+const lastIndex = eps.length - 1;
+const lastEp = eps[lastIndex];
+
+const lastLabel =
+  lastEp.getAttribute("data-label") || ("حلقة " + (lastIndex + 1));
+
+const lastUrl =
+  lastEp.getAttribute("data-video") || defaultUrl;
+
+// فعّل آخر زر بصريًا
+const lastPill = episodesList.children[lastIndex];
+lastPill.classList.add("active");
+
+// شغّل الفيديو
+playSource(lastUrl, baseTitle + " — " + lastLabel);
+
+// حرّك الشريط عليها
+lastPill.scrollIntoView({
+  behavior: "smooth",
+  inline: "end"
+});
+
         } else {
           // لا توجد حلقات: نعرض زر واحد "الحلقة الأخيرة"
           <!-- episodesRow.style.display = "flex"; -->
@@ -3288,6 +3480,74 @@
         closePlayer();
       }
     });
+	
+	window.addEventListener('load', () => {
+  // غيّر الكلاس لو اسمها مختلف
+  const episodes = document.querySelectorAll('.ep-pill');
+
+  if (!episodes.length) {
+    console.warn('لم يتم العثور على حلقات');
+    return;
+  }
+
+  const last = episodes[episodes.length - 1];
+
+  // حاول استخراج رابط الفيديو بأي طريقة
+  const videoUrl =
+    last.dataset.video ||
+    last.dataset.src ||
+    last.getAttribute('data-video') ||
+    last.getAttribute('data-src');
+
+  if (!videoUrl) {
+    console.warn('لا يوجد رابط في آخر حلقة');
+    return;
+  }
+
+  // 👇👇👇 هنا النقطة الحاسمة
+  // استدعِ نفس دالة التشغيل عندك
+  if (typeof playSource === 'function') {
+    playSource(videoUrl);
+  } else if (typeof playVideo === 'function') {
+    playVideo(videoUrl);
+  } else {
+    console.error('لم يتم العثور على دالة تشغيل');
+  }
+
+  // تفعيل بصري
+  episodes.forEach(e => e.classList.remove('active'));
+  last.classList.add('active');
+
+  // تحريك الشريط
+  last.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+});
+
+const bigPlayBtn = document.getElementById("bigPlayBtn");
+
+// عند الضغط على زر ▶
+bigPlayBtn.addEventListener("click", () => {
+  playerVideo.play();
+  bigPlayBtn.classList.add("hidden");
+});
+
+// عند بدء تشغيل الفيديو
+playerVideo.addEventListener("play", () => {
+  bigPlayBtn.classList.add("hidden");
+});
+
+// عند الإيقاف المؤقت
+playerVideo.addEventListener("pause", () => {
+  // لو الفيديو له src نرجّع الزر
+  if (playerVideo.src) {
+    bigPlayBtn.classList.remove("hidden");
+  }
+});
+
+// عند تغيير الفيديو (حلقة جديدة)
+playerVideo.addEventListener("loadeddata", () => {
+  bigPlayBtn.classList.remove("hidden");
+});
+
   </script>
   <script>
 if ('serviceWorker' in navigator) {
