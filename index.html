@@ -4362,6 +4362,7 @@
           <div class="episodes-list" id="episodesList"></div>
         </div>
         <video id="playerVideo" controls></video>
+		<button id="safeModeBtn" style="display:none;margin-bottom:8px; padding:6px 12px; border-radius:6px; border:0; background:#333; color:#fff; cursor:pointer;"> 🔒 وضع آمن (تقليل الإعلانات)  </button>
 		<iframe id="playerIframe"
         style="display:none;width:100%;height:56vh;border:0;"
         allowfullscreen
@@ -4394,6 +4395,27 @@
   playerTitle.textContent = title;
 
   const iframe = document.getElementById("playerIframe");
+const safeBtn = document.getElementById("safeModeBtn");
+
+function playEmbed(url) {
+  // تشغيل عادي (بدون sandbox)
+  iframe.removeAttribute("sandbox");
+  iframe.src = url;
+  iframe.style.display = "block";
+
+  // إظهار زر الوضع الآمن
+  safeBtn.style.display = "inline-block";
+
+  // عند الضغط على الزر
+  safeBtn.onclick = () => {
+    iframe.setAttribute(
+      "sandbox",
+      "allow-scripts allow-same-origin allow-presentation"
+    );
+    iframe.src = url; // إعادة تحميل
+  };
+}
+
 
   // تنظيف
   playerVideo.pause();
@@ -4412,11 +4434,11 @@
     playerVideo.src = url;
     playerVideo.load();
     playerVideo.style.display = "block";
+	safeBtn.style.display = "none";
 
   } else if (isEmbedPage) {
     // 🌐 تشغيل embed داخل iframe
-    iframe.src = url;
-    iframe.style.display = "block";
+    playEmbed(url);
 
   } else {
     // ❌ غير مدعوم
