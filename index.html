@@ -440,6 +440,43 @@
         height: 50vh;
       }
     }
+	
+	/* ===== فقاعة النصيحة ===== */
+.tip-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  max-width: 320px;
+  background: rgba(20, 20, 30, 0.95);
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  z-index: 99999;
+
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.tip-bubble.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* للجوال */
+@media (max-width: 600px) {
+  .tip-bubble {
+    right: 10px;
+    left: 10px;
+    max-width: unset;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -4371,8 +4408,29 @@
       </div>
     </div>
   </div>
+<div id="tipBubble" class="tip-bubble">
+  💡 ننصح بتثبيت المكتبة باستخدام متصفح <b>Brave</b><br>
+  لتجنب الإعلانات المزعجة عند تشغيل الحلقة
+</div>
 
   <script>
+  
+    function showTipBubble() {
+  const bubble = document.getElementById("tipBubble");
+  if (!bubble) return;
+
+  // لا نكرر الرسالة
+  //if (sessionStorage.getItem("tipShown")) return;
+
+  bubble.classList.add("show");
+  //sessionStorage.setItem("tipShown", "1");
+
+  // تختفي تلقائيًا
+  setTimeout(() => {
+    bubble.classList.remove("show");
+  }, 6000);
+}
+
     // ربط الكروت بالمشغل + دعم الحلقات
     const cards = document.querySelectorAll(".video-card");
     const overlay = document.getElementById("playerOverlay");
@@ -4408,12 +4466,29 @@ function playEmbed(url) {
 
   // عند الضغط على الزر
   safeBtn.onclick = () => {
-    iframe.setAttribute(
-      "sandbox",
-      "allow-scripts allow-same-origin allow-presentation"
-    );
-    iframe.src = url; // إعادة تحميل
-  };
+  iframe.setAttribute(
+    "sandbox",
+    "allow-scripts allow-same-origin allow-presentation"
+  );
+
+  iframe.src = url;
+
+  // لو السيرفر رفض التشغيل، نرجع للوضع العادي
+  setTimeout(() => {
+    try {
+      // لو الصفحة ما اشتغلت
+      if (!iframe.contentWindow || iframe.contentWindow.length === 0) {
+        throw new Error("Sandbox blocked");
+      }
+    } catch (e) {
+      alert("⚠️ هذا السيرفر لا يدعم وضع تخفيف الإعلانات.\nسيتم التشغيل بالوضع العادي.\n 💡 ننصح باستخدام بمتصفح Brave لحجب الإعلانات");
+
+      iframe.removeAttribute("sandbox");
+      iframe.src = url;
+    }
+  }, 1500);
+};
+
 }
 
 
@@ -4437,10 +4512,12 @@ function playEmbed(url) {
 	safeBtn.style.display = "none";
 
   } else if (isEmbedPage) {
-    // 🌐 تشغيل embed داخل iframe
-    playEmbed(url);
+  playEmbed(url);
 
-  } else {
+  // ❗ تظهر فقط عند embed
+  showTipBubble();
+
+} else {
     // ❌ غير مدعوم
     window.open(url, "_blank");
   }
