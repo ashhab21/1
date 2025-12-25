@@ -1,483 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<!-- <link rel="stylesheet" href="css/fontello.min.css"> -->
+<link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
   <title>مكتبة شبكة أشهب21 الأسبوعية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#050816">
 
-  <style>
-    /* إعدادات عامة */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050816; /* لون مطفي دارك */
-      color: #e5e7eb;
-      min-height: 100vh;
-    }
-
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 3rem;
-    }
-
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-
-    header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 10.04em;
-      background: linear-gradient(535deg, #38bdf8, #a855f7);
-      -webkit-background-clip: text;
-      color: transparent;
-	  text-align: center;
-    }
-
-    header p {
-      color: #9ca3af;
-      max-width: 500px;
-      font-size: 0.95rem;
-    }
-
-    /* شريط الفلترة البسيط (نموذج للتعديل لاحقاً) */
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .toolbar input {
-      background: #020617;
-      border: 1px solid #111827;
-      border-radius: 999px;
-      padding: 0.5rem 1rem;
-      color: #e5e7eb;
-      font-size: 0.9rem;
-      min-width: 220px;
-      outline: none;
-    }
-
-    .toolbar input::placeholder {
-      color: #6b7280;
-    }
-
-    .pill {
-      background: #020617;
-      border-radius: 999px;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.8rem;
-      border: 1px solid #111827;
-      cursor: pointer;
-      transition: 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .pill span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-    }
-
-    .pill:hover {
-      border-color: #38bdf8;
-      transform: translateY(-1px);
-    }
-
-    /* أقسام المكتبة */
-    .section {
-      margin-top: 2rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1rem;
-      gap: 0.75rem;
-    }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    .section-sub {
-      font-size: 0.75rem;
-      color: #6b7280;
-    }
-
-    /* شبكة الكروت */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .video-card {
-      position: relative;
-      border-radius: 1rem;
-      overflow: hidden;
-      cursor: pointer;
-      background: radial-gradient(circle at top, #111827, #020617 60%);
-      border: 1px solid #111827;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      min-height: 260px;
-    }
-
-    .video-card:hover {
-      transform: translateY(-6px) translateZ(0);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
-      border-color: #38bdf8;
-    }
-
-    .thumb-wrapper {
-      position: relative;
-      overflow: hidden;
-      border-radius: 1rem;
-      margin: 0.55rem 0.55rem 0.35rem;
-      flex: 1 0 auto;
-      min-height: 160px;
-    }
-
-    .thumb-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transform: scale(1.02);
-      transition: transform 0.35s ease, filter 0.35s ease;
-      filter: saturate(1.1);
-    }
-
-    .video-card:hover .thumb-wrapper img {
-      transform: scale(1.08);
-      filter: saturate(1.25) brightness(1.05);
-    }
-
-    .thumb-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.1));
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 0.75rem;
-    }
-
-    .play-circle {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .play-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.25), rgba(15, 23, 42, 0.9));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
-      transform: translateY(6px);
-      opacity: 0.96;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .video-card:hover .play-icon {
-      transform: translateY(0);
-      box-shadow: 0 0 46px rgba(56, 189, 248, 0.65);
-      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.3), rgba(15, 23, 42, 0.75));
-    }
-
-    .play-icon svg {
-      width: 30px;
-      height: 30px;
-      margin-left: 1px;
-      fill: #e5e7eb;
-    }
-
-    .thumb-meta {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: flex-end;
-      gap: 0.5rem;
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      color: #e5e7eb;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.18));
-      backdrop-filter: blur(8px);
-    }
-
-    .tag {
-      font-size: 0.7rem;
-      color: #c4b5fd;
-      opacity: 0.9;
-    }
-
-    .card-body {
-      padding: 0.5rem 0.75rem 0.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .card-title {
-      font-size: 0.99rem;
-      font-weight: 600;
-      color: #e5e7eb;
-      line-height: 1.4;
-    }
-	
-	.card-title1 {
-      font-size: 0.70rem;
-      font-weight: 600;
-      color: #e5e7eb;
-      line-height: 1.4;
-    }
-
-    .card-meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: #9ca3af;
-    }
-
-    .meta-left {
-      display: flex;
-      gap: 0.35rem;
-      align-items: center;
-    }
-
-    .dot-sep::before {
-      content: "•";
-      margin: 0 0.2rem;
-      opacity: 0.7;
-    }
-
-    .rating {
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.18rem;
-      color: #facc15;
-    }
-
-    .rating span {
-      color: #e5e7eb;
-      font-size: 0.74rem;
-    }
-
-    /* النافذة المنبثقة لمشغل الفيديو */
-    .player-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 50;
-    }
-
-    .player-overlay.active {
-      display: flex;
-    }
-
-    .player-box {
-      width: 100%;
-      max-width: 960px;
-      background: #020617;
-      border-radius: 1.25rem;
-      border: 1px solid #1f2937;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .player-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #111827;
-      background: radial-gradient(circle at top, #020617, #020617);
-    }
-
-    .player-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .player-close {
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 1.3rem;
-      cursor: pointer;
-      padding: 0.15rem 0.45rem;
-      border-radius: 999px;
-      transition: 0.15s ease;
-    }
-
-    .player-close:hover {
-      background: #111827;
-      color: #e5e7eb;
-    }
-
-
-    .player-body {
-      padding: 0.85rem 1rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .episodes-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.25rem;
-    }
-
-    .episodes-label {
-      font-size: 0.9rem;
-      color: #9ca3af;
-    }
-
-    .episodes-list {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 6px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding-bottom: 6px;
-  scrollbar-width: thin;
-}
-
-.episodes-list::-webkit-scrollbar {
-  height: 6px;
-}
-
-.episodes-list::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-.episodes-list::-webkit-scrollbar-thumb {
-  background: #1f2937;
-  border-radius: 10px;
-}
-
-    .ep-pill {
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.75rem;
-      color: #9ca3af;
-      cursor: pointer;
-      transition: 0.15s ease;
-    }
-
-    .ep-pill:hover {
-      border-color: #38bdf8;
-      color: #e5e7eb;
-    }
-
-    .ep-pill.active {
-      background: linear-gradient(135deg, #38bdf8, #a855f7);
-      border-color: transparent;
-      color: #0b1120;
-    }
-
-    video {
-      width: 100%;
-      height: 60vh;
-      max-height: 540px;
-      background: black;
-    }
-
-    @media (max-width: 640px) {
-      header h1 {
-        font-size: 1.6rem;
-      }
-      video {
-        height: 50vh;
-      }
-    }
-	
-	/* ===== فقاعة النصيحة ===== */
-.tip-bubble {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  max-width: 320px;
-  background: rgba(20, 20, 30, 0.95);
-  color: #fff;
-  padding: 14px 16px;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.5;
-  box-shadow: 0 10px 30px rgba(0,0,0,.4);
-  z-index: 99999;
-
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-
-  transition: opacity .4s ease, transform .4s ease;
-}
-
-.tip-bubble.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* للجوال */
-@media (max-width: 600px) {
-  .tip-bubble {
-    right: 10px;
-    left: 10px;
-    max-width: unset;
-  }
-}
-
-  </style>
 </head>
 <body>
   <div class="page">
@@ -486,24 +17,29 @@
       <p>
         ⚠ملاحظة:<br>
 		المكتبة فقط يتم تحديثها كل خميس لأخر الحلقات 📅<br>
-		لا تعتمد المكتبة على حلقات سابقة "فقط الحلقات الأسبوعية" 🔥<br>
+		<!-- لا تعتمد المكتبة على حلقات سابقة "فقط الحلقات الأسبوعية" 🔥<br> -->
 		لأضافة مسلسل أسبوعي او فليم يرجئ التواصل على <a><a href="https://wa.me/967771860891">واتس أب</a> ✉
       </p>
 	  <button id="installBtn" style="display:none; position:fixed; bottom:20px; right:20px; padding:12px 18px; font-size:15px; border-radius:10px; border:0; background:#38bdf8; color:#000; font-weight:700; z-index:9999; cursor:pointer;">📲 تثبيت المكتبة</button>
-
     </header>
-
     <!-- شريط أدوات (نموذج تقدر تعدل عليه أو تحذفه) -->
-    <!-- <div class="toolbar">
-      <input type="text" placeholder="ابحث عن فلم أو مسلسل (تصميم فقط – بدون كود بحث فعلي)" />
-      <button class="pill">
+    <div class="toolbar">
+      <input type="text" placeholder="ابحث عن فلم أو مسلسل" />
+      <!-- <button class="pill">
         <span class="dot"></span>
         الكل
       </button>
       <button class="pill">مسلسلات</button>
       <button class="pill">أفلام</button>
-      <button class="pill">أنمي</button>
-    </div> -->
+      <button class="pill">أنمي</button> -->
+    </div>
+	
+	<div class="latest-btn-wrap">
+  <button id="latestBtn" class="latest-btn">
+    🔥 المضاف حديثاً
+  </button>
+</div>
+
 
     <!-- نموذج قسم المسلسلات -->
     <section class="section">
@@ -517,58 +53,55 @@
 
       <div class="grid">
         <!-- نموذج كرت 1 -->
+		
         <article
-          class="video-card"
-          data-title="المؤسس أورهان"
-          data-video=""
-          >
+  class="video-card"
+  
+  data-title="المؤسس اورهان">
 
-       <!-- الحلقات (مخفية لا تغيّر شكل الكرت) -->
-        <div class="episodes-data" style="display:none">
-		
-		<div class="ep-data"
-         data-label="الحلقة 1"
-         data-video="https://vid5.zvde-dsn-05.site/Kurulus-Orhan/01.mp4"></div>
-		 
-		<div class="ep-data"
-         data-label="الحلقة 2"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/02.mp4"></div>
-		 
-		<div class="ep-data"
-         data-label="الحلقة 3"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/03.mp4"></div>
-		 
-		<div class="ep-data"
-         data-label="الحلقة 4"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/04.mp4"></div>
-		 
-		<div class="ep-data"
-         data-label="الحلقة 5"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/05.mp4"></div>
-		
-        <div class="ep-data"
-          data-label="الحلقة 6"
-          data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/06.mp4"></div>
-		  
-		<div class="ep-data"
-         data-label="الحلقة 7"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/07.mp4"></div>
+  <!-- الحلقات (مخفية) -->
+  <div class="episodes-data" style="display:none">
 
-		<div class="ep-data"
-         data-label="الحلقة 8"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/08.mp4"></div>
+    <div class="ep-data"
+      data-label="الحلقة 1"
+      data-video="https://vid5.zvde-dsn-05.site/Kurulus-Orhan/01.mp4"></div>
 
-		<div class="ep-data"
-         data-label="الحلقة 9 🆕"
-         data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/09.mp4"></div>
+    <div class="ep-data"
+      data-label="الحلقة 2"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/02.mp4"></div>
 
-        <!-- <div class="ep-data"
-         data-label="الحلقة 11"
-         data-video=""></div> -->
-		 
-		 </div>
-		 
-          <div class="thumb-wrapper">
+    <div class="ep-data"
+      data-label="الحلقة 3"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/03.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 4"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/04.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 5"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/05.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 6"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/06.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 7"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/07.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 8"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/08.mp4"></div>
+
+    <div class="ep-data"
+      data-label="الحلقة 9 🆕"
+      data-video="https://vid2.zvde-dsn-05.site/Kurulus-Orhan/09.mp4"></div>
+
+  </div>
+
+  <!-- الغلاف -->
+  <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
               src="https://image.tmdb.org/t/p/w1280/k9HP6u6qEC5WT44TsFc32PslYEu.jpg"
@@ -604,11 +137,14 @@
               </div>
             </div>
           </div>
-        </article>
+
+</article>
+
 		
 		
 		<article
           class="video-card"
+		  
           data-title="المؤسس أورهان"
           data-video=""
           >
@@ -691,6 +227,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="محمد الفاتح: سلطان الفتوحات"
           data-video=""
           >
@@ -805,6 +342,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="محمد الفاتح: سلطان الفتوحات"
           data-video=""
           >
@@ -995,6 +533,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="محمد الفاتح: سلطان الفتوحات"
           data-video=""
           >
@@ -1109,6 +648,7 @@
 		
 <article
           class="video-card"
+		  
           data-title="هذا البحر سوف يفيض"
           data-video=""
           >
@@ -1206,6 +746,7 @@
 
          <article
           class="video-card"
+		  
           data-title="حلم أشرف"
           data-video=""
           >
@@ -1313,6 +854,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="حلم أشرف"
           data-video=""
           >
@@ -1528,6 +1070,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="المشردون"
           data-video=""
           >
@@ -1966,6 +1509,7 @@
 
          <article
           class="video-card"
+		  
           data-title="عيناك كالبحر الأسود"
           data-video=""
           >
@@ -2084,6 +1628,7 @@
 
     <article
           class="video-card"
+		  
           data-title="عيناك كالبحر الأسود"
           data-video=""
           >
@@ -2458,6 +2003,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="البلدة الصغيرة"
           data-video=""
           >
@@ -2507,7 +2053,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1669.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/lvlfHFGvznu3RlYv1HalZV4dvvp.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -2561,6 +2107,7 @@
         <!-- نموذج كرت 1 -->
         <article
           class="video-card"
+		  
           data-title="الضارية"
           data-video=""
           >
@@ -2598,7 +2145,7 @@
           data-video="https://vid3.zvde-dsn-05.site/Al-Daaria/07.mp4"></div>
 
         <div class="ep-data"
-          data-label="الحلقة 8"
+          data-label="الحلقة 8 الأخيرة"
           data-video="https://vid3.zvde-dsn-05.site/Al-Daaria/08.mp4"></div>
 
         <!-- <div class="ep-data"
@@ -2610,7 +2157,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1604.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/1yfDesE037f2sB5BzqO0nfIycqs.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -2647,6 +2194,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="طراد"
           data-video=""
           >
@@ -2704,7 +2252,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1340.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/i9KGu1JbICLE7yx7FRKJsGxvmYR.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -2742,6 +2290,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="ثانوية النسيم"
           data-video=""
           >
@@ -2791,7 +2340,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1097.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/owPEzdjaRxQc6L1sH7h07vM8eBG.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -2829,6 +2378,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="قدها 2"
           data-video=""
           >
@@ -2886,7 +2436,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1612.jpg"
+              src="https://image.tmdb.org/t/p/original/ks3uK6gQ9V4haswcxY3qb2EhKMW.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -2923,6 +2473,7 @@
 		
 <article
           class="video-card"
+		  
           data-title="مدرسة النخبة 2"
           data-video=""
           >
@@ -2964,7 +2515,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1664.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/1kMRn5dU5WJ7zL8VdnN0N2x4P6h.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -3017,6 +2568,7 @@
         <!-- نموذج كرت 1 -->
         <article
           class="video-card"
+		  
           data-title="One Piece"
           data-video=""
           >
@@ -3073,6 +2625,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Gachiakuta"
           data-video=""
           >
@@ -3219,6 +2772,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Boku no Hero Academia: Final Season"
           data-video=""
           >
@@ -3313,6 +2867,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Devil May Cry"
           data-video=""
           >
@@ -3417,6 +2972,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="IT: Welcome to Derry"
           data-video=""
           >
@@ -3500,6 +3056,7 @@
 		
         <article
           class="video-card"
+		  
           data-title="رجل في مواجهة طفل"
           data-video=""
           >
@@ -3567,6 +3124,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Squid Game"
           data-video=""
           >
@@ -3616,7 +3174,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cw.alooytv4.xyz/uploads/video_thumb/1496.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -3654,6 +3212,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="لعبة الحبار"
           data-video=""
           >
@@ -3703,7 +3262,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cw.alooytv4.xyz/uploads/video_thumb/1497.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/fgBcvem8wcsFMdcTzgSaAue98R8.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -3741,6 +3300,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Squid Game"
           data-video=""
           >
@@ -3820,6 +3380,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="لعبة الحبار"
           data-video=""
           >
@@ -3899,6 +3460,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Squid Game"
           data-video=""
           >
@@ -3936,7 +3498,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cw.alooytv4.xyz/uploads/video_thumb/1495.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/eaX4og886CWqsAMgHiCCveZNKsV.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -3974,6 +3536,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="لعبة الحبار"
           data-video=""
           >
@@ -4011,7 +3574,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cw.alooytv4.xyz/uploads/video_thumb/1499.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/6f0Uokj58OGzgYjGobeJZDtTcUX.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4049,6 +3612,7 @@
 		
 		<article
           class="video-card"
+		  
           data-title="Stranger Things"
           data-video=""
           >
@@ -4133,7 +3697,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1668.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/eU1iuYCeba88kNYv9KxOFqBE3io.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4177,7 +3741,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1599.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/mkl4CS7AGmSuMUGYJwQZkQ8lNGa.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4222,7 +3786,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1641.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/8jy3spt8sIMjmtp0g2gGFPupb3x.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4496,7 +4060,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1600.jpg"
+              src="https://image.tmdb.org/t/p/original/3EfE1jrO5Ww0ITP8uk3Rno64utS.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4540,7 +4104,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1601.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/aLBiGL6Nqx8nY27X61g6szKn19Y.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4585,7 +4149,7 @@
           <div class="thumb-wrapper">
             <!-- غلاف المسلسل: غيّر رابط الصورة -->
             <img
-              src="https://cr.alooytv4.xyz/uploads/video_thumb/1602.jpg"
+              src="https://media.themoviedb.org/t/p/w220_and_h330_face/7h9IaiRnZHEYLmvDeo3bJAlmPvz.jpg"
               alt="غلاف المسلسل 1"
             />
             <div class="thumb-overlay">
@@ -4625,7 +4189,6 @@
 	
 	
   </div>
-
   <!-- نافذة مشغل الفيديو -->
   <div class="player-overlay" id="playerOverlay">
     <div class="player-box">
@@ -4648,309 +4211,25 @@
       </div>
     </div>
   </div>
+  
+  <div id="latestOverlay" style=" display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:9999; padding:20px;">
+  <div style=" max-width:1100px; margin:auto; background:#020617; padding:16px; border-radius:12px; ">
+    <div style="display:flex; justify-content: space-between; font-size: 1.3rem; align-items:center;">
+      <b>🔥 المضاف حديثاً</b>
+      <button id="latestClose" style="border: none; background: transparent; color: #9ca3af; font-size: 1.3rem; cursor: pointer; padding: 0.15rem 0.45rem; border-radius: 999px; transition: 0.15s ease;">✕</button>
+    </div>
+
+    <div id="latestGrid" style=" margin-top:12px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; max-height:70vh; overflow-y:auto; padding-right:6px;"></div>
+
+  </div>
+</div>
+
 <div id="tipBubble" class="tip-bubble">
   💡 ننصح بتثبيت المكتبة باستخدام متصفح <b>Brave</b><br>
   لتجنب الإعلانات المزعجة عند تشغيل الحلقة
 </div>
 
-  <script>
-  
-    function showTipBubble() {
-  const bubble = document.getElementById("tipBubble");
-  if (!bubble) return;
-
-  // لا نكرر الرسالة
-  //if (sessionStorage.getItem("tipShown")) return;
-
-  bubble.classList.add("show");
-  //sessionStorage.setItem("tipShown", "1");
-
-  // تختفي تلقائيًا
-  setTimeout(() => {
-    bubble.classList.remove("show");
-  }, 6000);
-}
-
-    // ربط الكروت بالمشغل + دعم الحلقات
-    const cards = document.querySelectorAll(".video-card");
-    const overlay = document.getElementById("playerOverlay");
-    const playerVideo = document.getElementById("playerVideo");
-    const playerTitle = document.getElementById("playerTitle");
-    const playerClose = document.getElementById("playerClose");
-
-    const episodesRow = document.getElementById("episodesRow");
-    const episodesList = document.getElementById("episodesList");
-
-    function clearEpisodes() {
-      if (episodesList) episodesList.innerHTML = "";
-      if (episodesRow) episodesRow.style.display = "none";
-    }
-
-    //function playSource(url, title) { if (!url) return; playerVideo.src = url; playerTitle.textContent = title; playerVideo.pause();}
-	function playSource(url, title) {
-  if (!url) return;
-
-  playerTitle.textContent = title;
-
-  const iframe = document.getElementById("playerIframe");
-const safeBtn = document.getElementById("safeModeBtn");
-
-function playEmbed(url) {
-  // تشغيل عادي (بدون sandbox)
-  iframe.removeAttribute("sandbox");
-  iframe.src = url;
-  iframe.style.display = "block";
-
-  // إظهار زر الوضع الآمن
-  safeBtn.style.display = "inline-block";
-
-  // عند الضغط على الزر
-  safeBtn.onclick = () => {
-  iframe.setAttribute(
-    "sandbox",
-    "allow-scripts allow-same-origin allow-presentation"
-  );
-
-  iframe.src = url;
-
-  // لو السيرفر رفض التشغيل، نرجع للوضع العادي
-  setTimeout(() => {
-    try {
-      // لو الصفحة ما اشتغلت
-      if (!iframe.contentWindow || iframe.contentWindow.length === 0) {
-        throw new Error("Sandbox blocked");
-      }
-    } catch (e) {
-      alert("⚠️ هذا السيرفر لا يدعم وضع تخفيف الإعلانات.\nسيتم التشغيل بالوضع العادي.\n 💡 ننصح باستخدام بمتصفح Brave لحجب الإعلانات");
-
-      iframe.removeAttribute("sandbox");
-      iframe.src = url;
-    }
-  }, 1500);
-};
-
-}
-
-
-  // تنظيف
-  playerVideo.pause();
-  playerVideo.removeAttribute("src");
-  playerVideo.style.display = "none";
-
-  iframe.src = "";
-  iframe.style.display = "none";
-
-  // 🔍 كشف نوع الرابط
-  const isDirectVideo = /\.(mp4|m3u8|ts)(\?|$)/i.test(url);
-  const isEmbedPage   = /\.(html|php)(\?|$)/i.test(url) || url.includes("/embed") || url.includes("/e/");
-
-  if (isDirectVideo) {
-    // 🎬 تشغيل مباشر
-    playerVideo.src = url;
-    playerVideo.load();
-    playerVideo.style.display = "block";
-	safeBtn.style.display = "none";
-
-  } else if (isEmbedPage) {
-  playEmbed(url);
-
-  // ❗ تظهر فقط عند embed
-  showTipBubble();
-
-} else {
-    // ❌ غير مدعوم
-    window.open(url, "_blank");
-  }
-}
-
-
-    cards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const baseTitle = card.getAttribute("data-title") || "فيديو";
-        const defaultUrl = card.getAttribute("data-video") || "";
-        const eps = card.querySelectorAll(".ep-data");
-
-        // افتح المشغل
-        overlay.classList.add("active");
-
-        // جهّز الحلقات
-        clearEpisodes();
-
-        if (eps.length > 0) {
-          // يوجد حلقات معرفة داخل الكرت
-          episodesRow.style.display = "flex";
-          eps.forEach((ep, index) => {
-            const label = ep.getAttribute("data-label") || ("حلقة " + (index + 1));
-            const url = ep.getAttribute("data-video") || defaultUrl;
-
-            const pill = document.createElement("button");
-            pill.className = "ep-pill";
-            pill.textContent = label;
-            pill.addEventListener("click", () => {
-              Array.from(episodesList.children).forEach((b) => b.classList.remove("active"));
-              pill.classList.add("active");
-              playSource(url, baseTitle + " — " + label);
-            });
-            episodesList.appendChild(pill);
-
-            // if (index === 0) { pill.classList.add("active"); playSource(url, baseTitle + " — " + label);}
-          });
-		  // ===== شغّل آخر حلقة تلقائيًا =====
-const lastIndex = eps.length - 1;
-const lastEp = eps[lastIndex];
-
-const lastLabel =
-  lastEp.getAttribute("data-label") || ("حلقة " + (lastIndex + 1));
-
-const lastUrl =
-  lastEp.getAttribute("data-video") || defaultUrl;
-
-// فعّل آخر زر بصريًا
-const lastPill = episodesList.children[lastIndex];
-lastPill.classList.add("active");
-
-// شغّل الفيديو
-playSource(lastUrl, baseTitle + " — " + lastLabel);
-
-// حرّك الشريط عليها
-lastPill.scrollIntoView({
-  behavior: "smooth",
-  inline: "end"
-});
-
-        } else {
-          // لا توجد حلقات: نعرض زر واحد "الحلقة الأخيرة"
-          <!-- episodesRow.style.display = "flex"; -->
-          const pill = document.createElement("button");
-          pill.className = "ep-pill active";
-          <!-- pill.textContent = "الحلقة الأخيرة"; -->
-          pill.addEventListener("click", () => {
-            playSource(defaultUrl, baseTitle);
-          });
-          episodesList.appendChild(pill);
-          // تشغيل مباشر مثل السابق
-          playSource(defaultUrl, "فيلم — " + baseTitle);
-        }
-      });
-    });
-
-    function closePlayer() {
-      overlay.classList.remove("active");
-      playerVideo.pause();
-      playerVideo.currentTime = 0;
-      playerVideo.removeAttribute("src");
-      clearEpisodes();
-    }
-
-    playerClose.addEventListener("click", closePlayer);
-
-    // إغلاق عند الضغط على الخلفية
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        closePlayer();
-      }
-    });
-
-    // إغلاق بـ Esc
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && overlay.classList.contains("active")) {
-        closePlayer();
-      }
-    });
-	
-	window.addEventListener('load', () => {
-  // غيّر الكلاس لو اسمها مختلف
-  const episodes = document.querySelectorAll('.ep-pill');
-
-  if (!episodes.length) {
-    console.warn('لم يتم العثور على حلقات');
-    return;
-  }
-
-  const last = episodes[episodes.length - 1];
-
-  // حاول استخراج رابط الفيديو بأي طريقة
-  const videoUrl =
-    last.dataset.video ||
-    last.dataset.src ||
-    last.getAttribute('data-video') ||
-    last.getAttribute('data-src');
-
-  if (!videoUrl) {
-    console.warn('لا يوجد رابط في آخر حلقة');
-    return;
-  }
-
-  // 👇👇👇 هنا النقطة الحاسمة
-  // استدعِ نفس دالة التشغيل عندك
-  if (typeof playSource === 'function') {
-    playSource(videoUrl);
-  } else if (typeof playVideo === 'function') {
-    playVideo(videoUrl);
-  } else {
-    console.error('لم يتم العثور على دالة تشغيل');
-  }
-
-  // تفعيل بصري
-  episodes.forEach(e => e.classList.remove('active'));
-  last.classList.add('active');
-
-  // تحريك الشريط
-  last.scrollIntoView({ behavior: 'smooth', inline: 'end' });
-});
-
-  </script>
-  <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/1/service-worker.js');
-}
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  const promptEvent = e;
-  setTimeout(() => {
-    if (confirm("هل تريد تثبيت مكتبة أشهب21 على جهازك؟ 🔥🎥")) {
-      promptEvent.prompt();
-    }
-  }, 1000);
-});
-</script>
-<script>
-let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  // نمنع Chrome من إظهار التنبيه الافتراضي
-  e.preventDefault();
-
-  // نخزن الحدث
-  deferredPrompt = e;
-
-  // نُظهر زر التثبيت
-  installBtn.style.display = 'block';
-});
-
-// عند الضغط على زر التثبيت
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-
-  // إظهار نافذة التثبيت الرسمية
-  deferredPrompt.prompt();
-
-  const { outcome } = await deferredPrompt.userChoice;
-  console.log('Install choice:', outcome);
-
-  // نخفي الزر بعد الاختيار
-  deferredPrompt = null;
-  installBtn.style.display = 'none';
-});
-
-// لو التطبيق تثبّت بالفعل، نخفي الزر
-window.addEventListener('appinstalled', () => {
-  console.log('App installed');
-  installBtn.style.display = 'none';
-});
-</script>
+<script src="main.min.js"></script>
 
 </body>
 </html>
