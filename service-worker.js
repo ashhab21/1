@@ -5,3 +5,5 @@ self.addEventListener("install", () => {
 self.addEventListener("activate", () => {
   clients.claim();
 });
+
+const CACHE_VERSION = "v3";
